@@ -19,14 +19,17 @@ public class Track extends JPanel implements Runnable {
   private final List<Wall> walls;
   private final List<TrackPaint> trackPaints;
   private FinishLine finishLine;
+  
+  private Racer parent;
 
-  public Track() {
+  public Track(Racer parent) {
+    this.parent = parent;
     cars = new ArrayList<>();
     movingObjects = new ArrayList<>();
     walls = new ArrayList<>();
     trackPaints = new ArrayList<>();
     initTrack();
-  }
+}
 
   private void initTrack() {
 
@@ -172,6 +175,21 @@ public void run() {
                 JOptionPane.ERROR_MESSAGE
             );
         }
+    }
+}
+public void resetGame() {
+    // Detener hilos existentes si es necesario
+    cars.clear();
+    movingObjects.clear();
+    
+    // Volver a crear los coches
+    cars.addAll(TrackData.createCars());
+    movingObjects.addAll(cars);
+    movingObjects.addAll(TrackData.createBoxes());
+    
+    // Reiniciar hilos para los coches
+    for (Car car : cars) {
+        new CarThread(car).start();
     }
 }
 }
