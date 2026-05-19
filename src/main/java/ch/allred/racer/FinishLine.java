@@ -12,17 +12,17 @@ public class FinishLine extends Sprite {
 
     @Override
     public void draw(Graphics2D g2d, ImageObserver imageObserver) {
-        g2d.setColor(Color.WHITE);
-        g2d.fill(getBounds());
+        int tileSize = 20;
 
-        g2d.setColor(Color.BLACK);
+        for (int i = 0; i < width; i += tileSize) {
 
-        for (int i = 0; i < width; i += 20) {
-            for (int j = 0; j < height; j += 20) {
-                if ((i + j) % 40 == 0) {
-                    g2d.fillRect((int)x + i, (int)y + j, 20, 20);
-                }
+            if ((i / tileSize) % 2 == 0) {
+                g2d.setColor(Color.WHITE);
+            } else {
+                g2d.setColor(Color.BLACK);
             }
+
+            g2d.fillRect((int)x + i, (int)y, tileSize, height);
         }
     }
 }

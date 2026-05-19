@@ -19,6 +19,7 @@ public class Track extends JPanel implements Runnable {
   private final List<Wall> walls;
   private final List<TrackPaint> trackPaints;
   private FinishLine finishLine;
+  private boolean controlsShown = false;
   
   private Racer parent;
 
@@ -46,10 +47,13 @@ public class Track extends JPanel implements Runnable {
     
     trackPaints.addAll(TrackData.createTrackPaints());
     cars.addAll(TrackData.createCars());
+    
+    
     System.out.println("Cantidad de carros: " + cars.size());
     movingObjects.addAll(cars);
     movingObjects.addAll(TrackData.createBoxes());
-    finishLine = new FinishLine(240, 30, 120, 20);
+    finishLine = new FinishLine(240, 30, 40, 170);
+    
 }
   private void checkFinishLine() {
 
@@ -79,6 +83,20 @@ public class Track extends JPanel implements Runnable {
     drawStats(g2d);
     finishLine.draw(g2d, this);
     Toolkit.getDefaultToolkit().sync();
+    
+    if (!controlsShown) {
+
+    controlsShown = true;
+
+    javax.swing.SwingUtilities.invokeLater(() -> {
+        JOptionPane.showMessageDialog(
+            this,
+            TrackData.getControlsMessage(),
+            "Controles del jugador",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+    });
+}
   }
 
   private void drawStats(Graphics2D g2d) {
@@ -122,7 +140,7 @@ public class Track extends JPanel implements Runnable {
 public void addNotify() {
 
     super.addNotify();
-
+    
     for (Car car : cars) {
         new CarThread(car).start();
     }
@@ -130,6 +148,7 @@ public void addNotify() {
     final Thread animatorThread = new Thread(this);
 
     animatorThread.start();
+    
 }
 
 @Override
@@ -192,3 +211,4 @@ public void resetGame() {
     }
 }
 }
+

@@ -110,4 +110,33 @@ public class TrackData {
         TrackData.CENTRE_WALL_Y_POSITION - TrackData.BOUNDING_WALL_THICKNESS));
     return paints;
   }
+  public static String getControlsMessage() {
+
+    switch (playerCarColorIndex) {
+
+        case 0:
+            return "CARRO ROJO\n\n"
+                 + "Flecha Arriba = Acelerar\n"
+                 + "Flecha Abajo = Frenar\n"
+                 + "Flecha Izquierda = Izquierda\n"
+                 + "Flecha Derecha = Derecha";
+
+        case 1:
+            return "CARRO AZUL\n\n"
+                 + "W = Acelerar\n"
+                 + "S = Frenar\n"
+                 + "A = Girar izquierda\n"
+                 + "D = Girar derecha";
+
+        case 2:
+            return "CARRO AMARILLO\n\n"
+                 + "I = Acelerar\n"
+                 + "K = Frenar\n"
+                 + "J = Izquierda\n"
+                 + "L = Derecha";
+
+        default:
+            return "Controles no disponibles";
+    }
+}
 }
