@@ -45,7 +45,7 @@ public class BackgroundSelector extends JPanel {
                 g.setColor(trackColors[selectedIndex]);
                 g.fillRect(0, 0, getWidth(), getHeight());
                 
-                // Cuadrado negro del tamaño de las tarjetas (como los de abajo)
+                
                 g.setColor(Color.BLACK);
                 int squareSize = 100;
                 int squareX = getWidth()/2 - squareSize/2;
