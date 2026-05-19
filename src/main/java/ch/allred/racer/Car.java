@@ -1,5 +1,6 @@
 package ch.allred.racer;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
@@ -61,6 +62,9 @@ public void setCrossedFinish(boolean crossedFinish) {
   private int score = 0;
 private boolean crossedFinish = false;
 
+private boolean isPlayerOne = false;
+private int carColorIndex = 0;
+
   private int forwardKeyCode = KeyEvent.VK_UP;
   private int backwardKeyCode = KeyEvent.VK_DOWN;
   private int leftKeyCode = KeyEvent.VK_LEFT;
@@ -72,13 +76,27 @@ private boolean crossedFinish = false;
   }
 
   @Override
-  public void draw(final Graphics2D g2d, ImageObserver imageObserver) {
+public void draw(final Graphics2D g2d, ImageObserver imageObserver) {
     g2d.drawImage(getImage(), getAffineTransform(), imageObserver);
-
-    if (DRAW_BOUNDING_BOXES) {
-      g2d.draw(getBounds());
+    
+    // Indicador para el coche del jugador 1 (flecha amarilla)
+    if (isPlayerOne) {
+        int indicatorX = (int) x + width / 2 - 10;
+        int indicatorY = (int) y - 15;
+        
+        g2d.setColor(Color.YELLOW);
+        int[] xPoints = {indicatorX + 10, indicatorX, indicatorX + 20};
+        int[] yPoints = {indicatorY, indicatorY + 12, indicatorY + 12};
+        g2d.fillPolygon(xPoints, yPoints, 3);
+        
+        g2d.setColor(Color.WHITE);
+        g2d.drawPolygon(xPoints, yPoints, 3);
     }
-  }
+    
+    if (DRAW_BOUNDING_BOXES) {
+        g2d.draw(getBounds());
+    }
+}
 
   public Car(int x, int y, int carIndex) {
 
@@ -108,13 +126,13 @@ private boolean crossedFinish = false;
   }
 
   private void initCar(int carIndex) {
+    this.carColorIndex = carIndex;
     if (carIndex == 1) {
-      loadImage("/car_blue.png");
-    } else if (carIndex == 2){
         loadImage("/car_blue.png");
-    }
-        else{
-      loadImage("/car_red.png");
+    } else if (carIndex == 2) {
+        loadImage("/car_yellow.png");
+    } else {
+        loadImage("/car_red.png");
     }
     indicatedSpeed = 0;
     xSpeed = 0;
@@ -124,7 +142,7 @@ private boolean crossedFinish = false;
     mass = 4;
     xHeading = 1;
     yHeading = 0;
-  }
+}
 
   public void keyPressed(KeyEvent e) {
     int key = e.getKeyCode();
@@ -238,5 +256,13 @@ private boolean crossedFinish = false;
     affine.rotate(getHeading(), (double) width / 2, (double) height / 2);
     return affine;
   }
+  
+  public void setAsPlayerOne(boolean playerOne) {
+    this.isPlayerOne = playerOne;
+}
+
+public int getCarColorIndex() {
+    return carColorIndex;
+}
 
 }
