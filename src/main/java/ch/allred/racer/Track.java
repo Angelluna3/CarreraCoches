@@ -31,25 +31,24 @@ public class Track extends JPanel implements Runnable {
     initTrack();
 }
 
-  private void initTrack() {
-
+ private void initTrack() {
     addKeyListener(new TAdapter());
-
     setBackground(Color.GRAY);
-
     setFocusable(true);
-
     walls.addAll(TrackData.createWalls());
-
+    
+    // Cargar imagen en la pared central
+    for (Wall wall : walls) {
+        if (wall.getX() == 200 && wall.getY() == 200 && wall.getBounds().width == 700 && wall.getBounds().height == 300) {
+            wall.loadCentreWallImage();
+        }
+    }
+    
     trackPaints.addAll(TrackData.createTrackPaints());
-
     cars.addAll(TrackData.createCars());
     System.out.println("Cantidad de carros: " + cars.size());
-
     movingObjects.addAll(cars);
-
     movingObjects.addAll(TrackData.createBoxes());
-
     finishLine = new FinishLine(240, 30, 120, 20);
 }
   private void checkFinishLine() {
